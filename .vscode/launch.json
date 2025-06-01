@@ -5,8 +5,9 @@
       "name": "Run optimization.py with PYTHONPATH",
       "type": "python",
       "request": "launch",
-      "program": "${workspaceFolder}/optimize_something/grade_optimization.py",
-      "cwd": "${workspaceFolder}/optimize_something",
+      "program": "${workspaceFolder}/assess_learners/testlearner.py",
+      "cwd": "${workspaceFolder}/assess_learners/testlearner",
+      "args": ["/Users/Santosha/Documents/CS7646-MachineLearningForTrading/assess_learners/Data/ripple.csv"],
       "env": {
         "PYTHONPATH": "../:."
       },
