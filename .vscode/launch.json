@@ -1,0 +1,16 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run optimization.py with PYTHONPATH",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/optimize_something/grade_optimization.py",
+      "cwd": "${workspaceFolder}/optimize_something",
+      "env": {
+        "PYTHONPATH": "../:."
+      },
+      "console": "integratedTerminal"
+    }
+  ]
+}
