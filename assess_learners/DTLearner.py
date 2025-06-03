@@ -52,10 +52,13 @@ class DTLearner(object):
         r2 = []
         for c in range(data_x.shape[1]):
             temp_data_x = np.asarray(data_x[:, c], dtype=float)
-            temp_r2 = np.corrcoef(temp_data_x, data_y)[0,1]
-            if np.isnan(temp_r2):
-                temp_r2 = 0
-            r2.append(temp_r2)
+            if np.std(temp_data_x) == 0 or np.std(data_y) == 0:
+                r2.append(-np.inf)
+            else:
+                temp_r2 = np.corrcoef(temp_data_x, data_y)[0,1]
+                if np.isnan(temp_r2):
+                    temp_r2 = 0
+                r2.append(temp_r2)
 
         best_split_feature = np.argmax(np.array(r2))
         best_split_val = np.median(data_x[:,best_split_feature])

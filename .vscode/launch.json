@@ -7,7 +7,7 @@
       "request": "launch",
       "program": "${workspaceFolder}/assess_learners/testlearner.py",
       "cwd": "${workspaceFolder}/assess_learners/testlearner",
-      "args": ["/Users/Santosha/Documents/CS7646-MachineLearningForTrading/assess_learners/Data/ripple.csv"],
+      "args": ["/Users/Santosha/Documents/CS7646-MachineLearningForTrading/assess_learners/Data/winequality-red.csv"],
       "env": {
         "PYTHONPATH": "../:."
       },
