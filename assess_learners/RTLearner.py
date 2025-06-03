@@ -1,23 +1,8 @@
-"""
-
-"""
-
 import numpy as np
 
 
-class RandomLearner(object):
-    """
-    This is a Decision Tree Learner (DTLearner).
-    You will need to properly implement this class as necessary.
+class RTLearner(object):
 
-    Parameters
-        leaf_size (int): Is the maximum number of samples to be aggregated at
-            a leaf
-        verbose (bool): If “verbose” is True, your code can print out
-            information for debugging.
-            If verbose = False your code should not generate ANY output.
-            When we test your code, verbose will be False.
-    """
     def __init__(self, leaf_size, verbose=False):
         """
         Constructor method
@@ -180,5 +165,5 @@ class RandomLearner(object):
 
 
 
-if __name__ == "__main__":
-    print("the secret clue is 'zzyzx'")
+# if __name__ == "__main__":
+#     print("the secret clue is 'zzyzx'")

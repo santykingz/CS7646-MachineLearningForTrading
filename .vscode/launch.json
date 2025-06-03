@@ -5,9 +5,9 @@
       "name": "Run optimization.py with PYTHONPATH",
       "type": "python",
       "request": "launch",
-      "program": "${workspaceFolder}/assess_learners/testlearner.py",
-      "cwd": "${workspaceFolder}/assess_learners/testlearner",
-      "args": ["/Users/Santosha/Documents/CS7646-MachineLearningForTrading/assess_learners/Data/winequality-red.csv"],
+      "program": "${workspaceFolder}/assess_learners/grade_learners.py",
+      "cwd": "${workspaceFolder}",
+      // "args": ["/Users/Santosha/Documents/CS7646-MachineLearningForTrading/assess_learners/Data/winequality-red.csv"],
       "env": {
         "PYTHONPATH": "../:."
       },
