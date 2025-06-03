@@ -30,6 +30,9 @@ import numpy as np
 
 import LinRegLearner as lrl
 import DTLearner as dt
+import RTLearner as rl
+import BagLearner as bl
+import InsaneLearner as it
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
@@ -77,36 +80,166 @@ if __name__ == "__main__":
     #===========================================================================
     # LinRegLearner
     #===========================================================================
-    # create a learner and train it
-    learner = lrl.LinRegLearner(verbose=True)  # create a LinRegLearner
-    learner.add_evidence(train_x, train_y)  # train it
-    print(learner.author())
+    # # create a learner and train it
+    # print(50*'-')
+    # print('Linear Regression Learner')
+    # learner = lrl.LinRegLearner(verbose=True)  # create a LinRegLearner
+    # learner.add_evidence(train_x, train_y)  # train it
+    # print(learner.author())
 
-    # evaluate in sample
-    pred_y = learner.query(train_x)  # get the predictions
-    rmse = math.sqrt(((train_y - pred_y) ** 2).sum() / train_y.shape[0])
-    print()
-    print("In sample results")
-    print(f"RMSE: {rmse}")
-    c = np.corrcoef(pred_y, y=train_y)
-    print(f"corr: {c[0,1]}")
+    # # evaluate in sample
+    # pred_y = learner.query(train_x)  # get the predictions
+    # rmse = math.sqrt(((train_y - pred_y) ** 2).sum() / train_y.shape[0])
+    # print()
+    # print("In sample results")
+    # print(f"RMSE: {rmse}")
+    # c = np.corrcoef(pred_y, y=train_y)
+    # print(f"corr: {c[0,1]}")
 
-    # evaluate out of sample
-    pred_y = learner.query(test_x)  # get the predictions
-    rmse = math.sqrt(((test_y - pred_y) ** 2).sum() / test_y.shape[0])
-    print()
-    print("Out of sample results")
-    print(f"RMSE: {rmse}")
-    c = np.corrcoef(pred_y, y=test_y)
-    print(f"corr: {c[0,1]}")
+    # # evaluate out of sample
+    # pred_y = learner.query(test_x)  # get the predictions
+    # rmse = math.sqrt(((test_y - pred_y) ** 2).sum() / test_y.shape[0])
+    # print()
+    # print("Out of sample results")
+    # print(f"RMSE: {rmse}")
+    # c = np.corrcoef(pred_y, y=test_y)
+    # print(f"corr: {c[0,1]}")
+    # print('')
+    # #===========================================================================
+    # # Decision Tree Learner
+    # #===========================================================================
+    # # create a learner and train it
+    # print(50*'-')
+    # print('Decision Tree Learner')
+    # learner = dt.DTLearner(leaf_size=3, verbose=False)  # create a LinRegLearner
+    # learner.add_evidence(train_x, train_y)  # train it
+    # print(learner.author())
+
+    # # evaluate in sample
+    # pred_y = learner.query(train_x)  # get the predictions
+    # rmse = math.sqrt(((train_y - pred_y) ** 2).sum() / train_y.shape[0])
+    # print()
+    # print("In sample results")
+    # print(f"RMSE: {rmse}")
+    # c = np.corrcoef(pred_y, y=train_y)
+    # print(f"corr: {c[0,1]}")
+
+    # # evaluate out of sample
+    # pred_y = learner.query(test_x)  # get the predictions
+    # rmse = math.sqrt(((test_y - pred_y) ** 2).sum() / test_y.shape[0])
+    # print()
+    # print("Out of sample results")
+    # print(f"RMSE: {rmse}")
+    # c = np.corrcoef(pred_y, y=test_y)
+    # print(f"corr: {c[0,1]}")
+    # print('')
+    # # #===========================================================================
+    # # # Random Tree Learner
+    # # #===========================================================================
+    # # create a learner and train it
+    # print(50*'-')
+    # print('Random Tree Learner')
+    # learner = rl.RandomLearner(leaf_size=3, verbose=False)  # create a LinRegLearner
+    # learner.add_evidence(train_x, train_y)  # train it
+    # print(learner.author())
+
+    # # evaluate in sample
+    # pred_y = learner.query(train_x)  # get the predictions
+    # rmse = math.sqrt(((train_y - pred_y) ** 2).sum() / train_y.shape[0])
+    # print()
+    # print("In sample results")
+    # print(f"RMSE: {rmse}")
+    # c = np.corrcoef(pred_y, y=train_y)
+    # print(f"corr: {c[0,1]}")
+
+    # # evaluate out of sample
+    # pred_y = learner.query(test_x)  # get the predictions
+    # rmse = math.sqrt(((test_y - pred_y) ** 2).sum() / test_y.shape[0])
+    # print()
+    # print("Out of sample results")
+    # print(f"RMSE: {rmse}")
+    # c = np.corrcoef(pred_y, y=test_y)
+    # print(f"corr: {c[0,1]}")
+    # #===========================================================================
+    # # Bag Learner
+    # #===========================================================================
+    # # create a learner and train it
+    # print(50*'-')
+    # print('Bag Learner - Decision Tree')
+    # # test 1
+    # learner = bl.BagLearner(learner = dt.DTLearner, kwargs = {"leaf_size":1}, bags = 20, boost = False, verbose = False)
+    # learner.add_evidence(train_x, train_y)
+    # # evaluate in sample
+    # pred_y = learner.query(train_x)  # get the predictions
+    # rmse = math.sqrt(((train_y - pred_y) ** 2).sum() / train_y.shape[0])
+    # print()
+    # print("In sample results")
+    # print(f"RMSE: {rmse}")
+    # c = np.corrcoef(pred_y, y=train_y)
+    # print(f"corr: {c[0,1]}")
+
+    # # evaluate out of sample
+    # pred_y = learner.query(test_x)  # get the predictions
+    # rmse = math.sqrt(((test_y - pred_y) ** 2).sum() / test_y.shape[0])
+    # print()
+    # print("Out of sample results")
+    # print(f"RMSE: {rmse}")
+    # c = np.corrcoef(pred_y, y=test_y)
+    # print(f"corr: {c[0,1]}")
+    # #---------------------------------------------------------------------------
+    # print(50*'-')
+    # print('Bag Learner - Linear Regression')
+    # # test 2
+    # learner = bl.BagLearner(learner = lrl.LinRegLearner, kwargs = {}, bags = 10, boost = False, verbose = False)
+    # learner.add_evidence(train_x, train_y)
+    # # evaluate in sample
+    # pred_y = learner.query(train_x)  # get the predictions
+    # rmse = math.sqrt(((train_y - pred_y) ** 2).sum() / train_y.shape[0])
+    # print()
+    # print("In sample results")
+    # print(f"RMSE: {rmse}")
+    # c = np.corrcoef(pred_y, y=train_y)
+    # print(f"corr: {c[0,1]}")
+
+    # # evaluate out of sample
+    # pred_y = learner.query(test_x)  # get the predictions
+    # rmse = math.sqrt(((test_y - pred_y) ** 2).sum() / test_y.shape[0])
+    # print()
+    # print("Out of sample results")
+    # print(f"RMSE: {rmse}")
+    # c = np.corrcoef(pred_y, y=test_y)
+    # print(f"corr: {c[0,1]}")
+    # #---------------------------------------------------------------------------
+    # # test 3
+    # print(50*'-')
+    # print('Bag Learner -Random tree')
+    # learner = bl.BagLearner(learner = rl.RandomLearner, kwargs = {"leaf_size":3}, bags = 20, boost = False, verbose = False)
+    # learner.add_evidence(train_x, train_y)
+    # # evaluate in sample
+    # pred_y = learner.query(train_x)  # get the predictions
+    # rmse = math.sqrt(((train_y - pred_y) ** 2).sum() / train_y.shape[0])
+    # print()
+    # print("In sample results")
+    # print(f"RMSE: {rmse}")
+    # c = np.corrcoef(pred_y, y=train_y)
+    # print(f"corr: {c[0,1]}")
+
+    # # evaluate out of sample
+    # pred_y = learner.query(test_x)  # get the predictions
+    # rmse = math.sqrt(((test_y - pred_y) ** 2).sum() / test_y.shape[0])
+    # print()
+    # print("Out of sample results")
+    # print(f"RMSE: {rmse}")
+    # c = np.corrcoef(pred_y, y=test_y)
+    # print(f"corr: {c[0,1]}")
     #===========================================================================
-    # LinRegLearner
+    # Insane Learner
     #===========================================================================
     # create a learner and train it
-    learner = dt.DTLearner(leaf_size=3, verbose=False)  # create a LinRegLearner
-    learner.add_evidence(train_x, train_y)  # train it
-    print(learner.author())
-
+    print(50*'-')
+    print('Insane Learner')
+    learner = it.InsaneLearner(verbose = False) # constructor
+    learner.add_evidence(train_x, train_y) # training step
     # evaluate in sample
     pred_y = learner.query(train_x)  # get the predictions
     rmse = math.sqrt(((train_y - pred_y) ** 2).sum() / train_y.shape[0])

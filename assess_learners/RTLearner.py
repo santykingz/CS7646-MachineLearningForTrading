@@ -5,7 +5,7 @@
 import numpy as np
 
 
-class DTLearner(object):
+class RandomLearner(object):
     """
     This is a Decision Tree Learner (DTLearner).
     You will need to properly implement this class as necessary.
@@ -46,21 +46,10 @@ class DTLearner(object):
 
     def best_split(self, data_x, data_y):
         """
-        Use correlation to pick the best feature
+        Use random feature splitting
         """
-        data_y = np.asarray(data_y, dtype=float)
-        r2 = []
-        for c in range(data_x.shape[1]):
-            temp_data_x = np.asarray(data_x[:, c], dtype=float)
-            if np.std(temp_data_x) == 0 or np.std(data_y) == 0:
-                r2.append(-np.inf)
-            else:
-                temp_r2 = np.corrcoef(temp_data_x, data_y)[0,1]
-                if np.isnan(temp_r2):
-                    temp_r2 = 0
-                r2.append(temp_r2)
 
-        best_split_feature = np.argmax(np.array(r2))
+        best_split_feature = np.random.randint(0, data_x.shape[1])
         best_split_val = np.median(data_x[:,best_split_feature])
 
         return best_split_feature, best_split_val
@@ -186,8 +175,7 @@ class DTLearner(object):
         """
         res = []
         for p in points:
-            p_res = self.query_point(p)
-            res.append(p_res)
+            res.append(self.query_point(p))
         return np.array(res)
 
 
