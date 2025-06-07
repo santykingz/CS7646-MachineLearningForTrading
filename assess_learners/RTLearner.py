@@ -58,6 +58,7 @@ class RTLearner(object):
         :param data_y: The value we are attempting to predict given the X data
         :type data_y: numpy.ndarray
         """
+
         # clean out any non-float values
         data_x = self.only_floats(data_x)
 

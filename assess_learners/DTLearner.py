@@ -75,6 +75,8 @@ class DTLearner(object):
                 continue
         return data_x[:, float_cols]
 
+    # TODO: ADD  In the cleaning here!!!!
+
     def add_evidence(self, data_x, data_y, depth=0):
         """
         Add training data to learner

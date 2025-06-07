@@ -5,9 +5,9 @@
       "name": "Run optimization.py with PYTHONPATH",
       "type": "python",
       "request": "launch",
-      "program": "${workspaceFolder}/assess_learners/grade_learners.py",
+      "program": "${workspaceFolder}/assess_learners/testlearner.py",
       "cwd": "${workspaceFolder}",
-      // "args": ["/Users/Santosha/Documents/CS7646-MachineLearningForTrading/assess_learners/Data/winequality-red.csv"],
+      "args": ["/Users/Santosha/Documents/CS7646-MachineLearningForTrading/assess_learners/Data/Istanbul.csv"],
       "env": {
         "PYTHONPATH": "../:."
       },
@@ -15,3 +15,20 @@
     }
   ]
 }
+
+// {
+//   "version": "0.2.0",
+//   "configurations": [
+//     {
+//       "name": "Run grade_learners.py with PYTHONPATH",
+//       "type": "python",
+//       "request": "launch",
+//       "program": "${workspaceFolder}/assess_learners/grade_learners.py",
+//       "cwd": "${workspaceFolder}/assess_learners",
+//       "env": {
+//         "PYTHONPATH": "../:."
+//       },
+//       "console": "integratedTerminal"
+//     }
+//   ]
+// }

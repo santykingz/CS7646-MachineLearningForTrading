@@ -9,12 +9,8 @@ class InsaneLearner(object):
             bags = 20, boost = False, verbose = verbose)
     def author(self):
         return "sspickard3"  # replace tb34 with your Georgia Tech username
-    def study_group(self):
-        return "gburdell3"
     def add_evidence(self, data_x, data_y):
         self.learner.add_evidence(data_x, data_y)
     def query(self, points):
         res = self.learner.query(points)
         return res
-if __name__ == "__main__":
-    print("the secret clue is 'zzyzx'")
