@@ -18,7 +18,7 @@ class DTLearner(object):
             If verbose = False your code should not generate ANY output.
             When we test your code, verbose will be False.
     """
-    def __init__(self, leaf_size, verbose=False):
+    def __init__(self, leaf_size=1, verbose=False):
         """
         Constructor method
         """

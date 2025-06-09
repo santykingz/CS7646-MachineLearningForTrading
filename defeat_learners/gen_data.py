@@ -45,11 +45,25 @@ def best_4_lin_reg(seed=1489683273):
     :rtype: numpy.ndarray
     """
     np.random.seed(seed)
-    x = np.zeros((100, 2))
-    y = np.random.random(size=(100,)) * 200 - 100
-    # Here's is an example of creating a Y from randomly generated
-    # X with multiple columns
-    # y = x[:,0] + np.sin(x[:,1]) + x[:,2]**2 + x[:,3]**3
+    # pick a random number of columns to have between 2 and 10
+    x_col_count = np.random.randint(low=2, high=10, size=1)[0]
+
+    # pick a random number of rows
+    x_row_count = np.random.randint(low=500, high=1000, size=1)[0]
+
+    # loop through the x_col_count and generate some random data
+    x = np.zeros((x_row_count, x_col_count))
+    for loop in range(0, x_col_count):
+        x[:, loop] = np.random.random(size = x_row_count)
+
+    # calculate y
+    betas = np.random.random(size = x_col_count + 1)
+    y_without_noise = betas[0] + np.dot(x, betas[1:])
+
+    # add some random noise to y
+    random_noise = np.random.normal(loc=0.0, scale=0.05, size=x_row_count)
+    y = y_without_noise + random_noise
+
     return x, y
 
 
@@ -65,8 +79,30 @@ def best_4_dt(seed=1489683273):
     :rtype: numpy.ndarray
     """
     np.random.seed(seed)
-    x = np.zeros((100, 2))
-    y = np.random.random(size=(100,)) * 200 - 100
+    # pick a random number of columns to have between 2 and 10
+    x_col_count = np.random.randint(low=2, high=10, size=1)[0]
+
+    # pick a random number of rows
+    x_row_count = np.random.randint(low=500, high=1000, size=1)[0]
+
+    betas = np.random.random(size = x_col_count + 1)
+    powers = np.random.randint(low = 1, high=5, size = x_col_count)
+    y_without_noise = betas[0] + np.ones(x_row_count)
+
+    # loop through the x_col_count and generate some random data
+    x = np.zeros((x_row_count, x_col_count))
+    for loop in range(0, x_col_count):
+        temp_data = np.random.random(size = x_row_count)
+        x[:, loop] = temp_data
+        y_without_noise = y_without_noise + temp_data ** powers[loop]
+        y_without_noise = y_without_noise + (temp_data > 0.5).astype(float) * np.random.uniform(1, 3)
+
+    # add some random noise to y
+    random_noise = np.random.normal(loc=0.0, scale=0.05, size=x_row_count)
+
+
+    y = y_without_noise + random_noise
+
     return x, y
 
 def study_group(self):
@@ -87,3 +123,5 @@ def author():
 
 if __name__ == "__main__":
     print("they call me Tim.")
+    best_4_lin_reg()
+    best_4_dt()

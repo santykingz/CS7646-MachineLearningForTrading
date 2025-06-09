@@ -2,12 +2,11 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Run optimization.py with PYTHONPATH",
+      "name": "Run gen_data.py",
       "type": "python",
       "request": "launch",
-      "program": "${workspaceFolder}/assess_learners/testlearner.py",
+      "program": "${workspaceFolder}/defeat_learners/gen_data.py",
       "cwd": "${workspaceFolder}",
-      "args": ["/Users/Santosha/Documents/CS7646-MachineLearningForTrading/assess_learners/Data/Istanbul.csv"],
       "env": {
         "PYTHONPATH": "../:."
       },
@@ -16,6 +15,25 @@
   ]
 }
 
+
+
+// {
+//   "version": "0.2.0",
+//   "configurations": [
+//     {
+//       "name": "Run optimization.py with PYTHONPATH",
+//       "type": "python",
+//       "request": "launch",
+//       "program": "${workspaceFolder}/assess_learners/testlearner.py",
+//       "cwd": "${workspaceFolder}",
+//       "args": ["/Users/Santosha/Documents/CS7646-MachineLearningForTrading/assess_learners/Data/Istanbul.csv"],
+//       "env": {
+//         "PYTHONPATH": "../:."
+//       },
+//       "console": "integratedTerminal"
+//     }
+//   ]
+// }
 // {
 //   "version": "0.2.0",
 //   "configurations": [
