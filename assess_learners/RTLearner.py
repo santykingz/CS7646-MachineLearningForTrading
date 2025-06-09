@@ -33,8 +33,12 @@ class RTLearner(object):
         """
         Use random feature splitting
         """
-
-        best_split_feature = np.random.randint(0, data_x.shape[1])
+        counter = 0
+        while counter < 10:
+            best_split_feature = np.random.randint(0, data_x.shape[1])
+            if np.std(data_x[:, best_split_feature]) != 0:
+                break
+            counter = counter + 1
         best_split_val = np.median(data_x[:,best_split_feature])
 
         return best_split_feature, best_split_val

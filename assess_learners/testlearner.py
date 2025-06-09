@@ -29,6 +29,7 @@ import random
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import datetime
 
 import LinRegLearner as lrl
 import DTLearner as dt
@@ -341,109 +342,160 @@ def expiriment_two(train_x, train_y, test_x, test_y):
 def expiriment_three(train_x, train_y, test_x, test_y):
     results = pd.DataFrame(columns=[
         'leaf_size',
-        'in_sample_corr_dt','in_sample_rmse_dt',
-        'out_of_sample_corr_dt','out_of_sample_rmse_dt',
-        'in_sample_corr_rt','in_sample_rmse_rt',
-        'out_of_sample_corr_rt','out_of_sample_rmse_rt'])
+        'in_sample_mae_dt','train_time_sec_dt','out_of_sample_mae_dt', 'pred_time_sec_dt',
+        'in_sample_mae_rt','train_time_sec_rt','out_of_sample_mae_rt', 'pred_time_sec_rt',
+        'in_sample_rsq_dt','out_of_sample_rsq_dt',
+        'in_sample_rsq_rt','out_of_sample_rsq_rt'
+        ])
     for leaf in range(0,20):
+        start_train_dt = datetime.datetime.now()
         learner_dt = dt.DTLearner(leaf_size=leaf, verbose=False)
         learner_dt.add_evidence(train_x, train_y)  # train it
+        end_train_dt = datetime.datetime.now()
 
+        start_train_rt = datetime.datetime.now()
         learner_rt = rl.RTLearner(leaf_size=leaf, verbose=False)
         learner_rt.add_evidence(train_x, train_y)
+        end_train_rt = datetime.datetime.now()
 
         # evaluate in sample
+        start_pred_dt = datetime.datetime.now()
         pred_y_dt = learner_dt.query(train_x)  # get the predictions
-        in_rmse_dt = math.sqrt(((train_y - pred_y_dt) ** 2).sum() / train_y.shape[0])
-        in_c_dt = np.corrcoef(pred_y_dt, y=train_y)[0,1]
+        end_pred_dt = datetime.datetime.now()
 
+        #in_rmse_dt = math.sqrt(((train_y - pred_y_dt) ** 2).sum() / train_y.shape[0])
+        in_c_dt = np.corrcoef(pred_y_dt, y=train_y)[0,1]
+        in_sample_rsq_dt = in_c_dt**2
+        in_sample_mae_dt = np.mean(np.abs(train_y - pred_y_dt))
+        train_time_sec_dt = (end_train_dt-start_train_dt).total_seconds()
+        pred_time_sec_dt = (end_pred_dt-start_pred_dt).total_seconds()
+
+        start_pred_rt = datetime.datetime.now()
         pred_y_rt = learner_rt.query(train_x)  # get the predictions
-        in_rmse_rt = math.sqrt(((train_y - pred_y_rt) ** 2).sum() / train_y.shape[0])
+        end_pred_rt = datetime.datetime.now()
+        #in_rmse_rt = math.sqrt(((train_y - pred_y_rt) ** 2).sum() / train_y.shape[0])
         in_c_rt = np.corrcoef(pred_y_rt, y=train_y)[0,1]
+        in_sample_rsq_rt = in_c_rt**2
+        in_sample_mae_rt = np.mean(np.abs(train_y - pred_y_rt))
+        train_time_sec_rt = (end_train_rt-start_train_rt).total_seconds()
+        pred_time_sec_rt = (end_pred_rt-start_pred_rt).total_seconds()
 
         # evaluate out of sample
         pred_y_dt = learner_dt.query(test_x)  # get the predictions
-        out_rmse_dt = math.sqrt(((test_y - pred_y_dt) ** 2).sum() / test_y.shape[0])
+        #out_rmse_dt = math.sqrt(((test_y - pred_y_dt) ** 2).sum() / test_y.shape[0])
         out_c_dt = np.corrcoef(pred_y_dt, y=test_y)[0,1]
+        out_of_sample_rsq_dt = out_c_dt**2
+        out_of_sample_mae_dt = np.mean(np.abs(test_y - pred_y_dt))
 
         pred_y_rt = learner_rt.query(test_x)  # get the predictions
-        out_rmse_rt = math.sqrt(((test_y - pred_y_rt) ** 2).sum() / test_y.shape[0])
+        #out_rmse_rt = math.sqrt(((test_y - pred_y_rt) ** 2).sum() / test_y.shape[0])
         out_c_rt = np.corrcoef(pred_y_rt, y=test_y)[0,1]
+        out_of_sample_rsq_rt = out_c_rt **2
+        out_of_sample_mae_rt = np.mean(np.abs(test_y - pred_y_rt))
 
         # add the results to the df
         results = pd.concat([
             results,
             pd.DataFrame(
                 data=[[leaf,
-                        in_c_dt, in_rmse_dt, out_c_dt, out_rmse_dt,
-                        in_c_rt, in_rmse_rt, out_c_rt, out_rmse_rt]],
+                        in_sample_mae_dt, train_time_sec_dt, out_of_sample_mae_dt, pred_time_sec_dt,
+                        in_sample_mae_rt, train_time_sec_rt, out_of_sample_mae_rt, pred_time_sec_rt,
+                        in_sample_rsq_dt, out_of_sample_rsq_dt,
+                        in_sample_rsq_rt, out_of_sample_rsq_rt
+                        ]],
                 columns=[
-                    'leaf_size',
-                    'in_sample_corr_dt','in_sample_rmse_dt',
-                    'out_of_sample_corr_dt','out_of_sample_rmse_dt',
-                    'in_sample_corr_rt','in_sample_rmse_rt',
-                    'out_of_sample_corr_rt','out_of_sample_rmse_rt'])
+                   'leaf_size',
+                    'in_sample_mae_dt','train_time_sec_dt','out_of_sample_mae_dt', 'pred_time_sec_dt',
+                    'in_sample_mae_rt','train_time_sec_rt','out_of_sample_mae_rt', 'pred_time_sec_rt',
+                    'in_sample_rsq_dt','out_of_sample_rsq_dt',
+                    'in_sample_rsq_rt','out_of_sample_rsq_rt'])
         ])
     # make the graphs
     fig, axes = plt.subplots(1, 2, figsize=(12, 5))
 
     axes[0].plot(results['leaf_size'],
-                    results['in_sample_corr_dt'],
+                    results['in_sample_rsq_dt'],
                     color='blue',
                     label='DT: In Sample')
     axes[0].plot(results['leaf_size'],
-                    results['out_of_sample_corr_dt'],
+                    results['out_of_sample_rsq_dt'],
                     linestyle='--',
                     color='blue',
                     label = 'DT: Out of Sample')
 
     axes[0].plot(results['leaf_size'],
-                    results['in_sample_corr_rt'],
+                    results['in_sample_rsq_rt'],
                     color='green',
                     label='RT: In Sample')
     axes[0].plot(results['leaf_size'],
-                    results['out_of_sample_corr_rt'],
+                    results['out_of_sample_rsq_rt'],
                     linestyle='--',
                     color='green',
                     label = 'RT: Out of Sample')
 
-    axes[0].set_title('Correlation by Leaf Size')
+    axes[0].set_title('R Squared by Leaf Size')
     axes[0].set_xlabel('Max # of Leaves')
-    axes[0].set_ylabel('Correlation')
+    axes[0].set_ylabel('R Squared')
     axes[0].legend()
-    # plt.savefig('figure1.png')
-    # plt.close()
 
     # rmse graphs
     axes[1].plot(results['leaf_size'],
-                    results['in_sample_rmse_dt'],
+                    results['in_sample_mae_dt'],
                     color='blue',
                     label='DT: In Sample')
     axes[1].plot(results['leaf_size'],
-                    results['out_of_sample_rmse_dt'],
+                    results['out_of_sample_mae_dt'],
                     linestyle='--',
                     color='blue',
                     label = 'DT: Out of Sample')
 
     axes[1].plot(results['leaf_size'],
-                    results['in_sample_rmse_rt'],
+                    results['in_sample_mae_rt'],
                     color='green',
                     label='RT: In Sample')
     axes[1].plot(results['leaf_size'],
-                    results['out_of_sample_rmse_rt'],
+                    results['out_of_sample_mae_rt'],
                     color='green',
                     linestyle='--',
                     label = 'RT: Out of Sample')
 
-    axes[1].set_title('RMSE by Leaf Size')
+    axes[1].set_title('MAE by Leaf Size')
     axes[1].set_xlabel('Max # of Leaves')
-    axes[1].set_ylabel('RMSE')
+    axes[1].set_ylabel('MAE')
     axes[1].legend()
 
 
     plt.suptitle('Decision Tree v Random Tree')
     plt.tight_layout()
     plt.savefig('figure3.png')
+    plt.close()
+
+    # plot the time to train
+    plt.plot(results['leaf_size'],
+                    results['train_time_sec_dt'],
+                    color='blue',
+                    label = 'DT: Train Time')
+    plt.plot(results['leaf_size'],
+                    results['pred_time_sec_dt'],
+                    color='blue',
+                    linestyle='--',
+                    label = 'DT: Predict Time')
+
+    plt.plot(results['leaf_size'],
+                    results['train_time_sec_rt'],
+                    color='green',
+                    label = 'RT: Train Time')
+    plt.plot(results['leaf_size'],
+                    results['pred_time_sec_rt'],
+                    color='green',
+                    linestyle='--',
+                    label = 'RT: Predict Time')
+    plt.suptitle('Decision Tree v Random Tree')
+    plt.title('Time to Train and Predict')
+    plt.xlabel('Min # of Leaves')
+    plt.ylabel('Time (seconds)')
+    plt.tight_layout()
+    plt.savefig('figure4.png')
     plt.close()
 
 if __name__ == "__main__":
@@ -479,6 +531,10 @@ if __name__ == "__main__":
     data = data[:, float_cols]
     data = np.array(data, dtype=float)
 
+    # set random seeds
+    np.random.seed(1481090001)
+    random.seed(1481090001)
+
     # compute how much of the data is training and testing
     train_row_count = int(0.6 * data.shape[0])
     train_rows = random.sample(range(0, data.shape[0]), train_row_count)
@@ -491,8 +547,7 @@ if __name__ == "__main__":
     test_y = data[test_rows, -1]
 
 
-
-    test_all(train_x=train_x, train_y=train_y,test_x=test_x,test_y=test_y)
+    #test_all(train_x=train_x, train_y=train_y,test_x=test_x,test_y=test_y)
     expiriment_one(train_x=train_x, train_y=train_y,test_x=test_x,test_y=test_y)
     expiriment_two(train_x=train_x, train_y=train_y,test_x=test_x,test_y=test_y)
     expiriment_three(train_x=train_x, train_y=train_y,test_x=test_x,test_y=test_y)
